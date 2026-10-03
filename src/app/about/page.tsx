@@ -1,0 +1,2 @@
+export const metadata = { title: 'About' };
+export default function About() { return (<div className="mx-auto max-w-2xl px-4 py-10"><h1 className="font-display text-5xl font-bold uppercase">About SN Sports</h1><p className="mt-4 text-lg">SN Sports makes custom jerseys for players, teams, tournaments and leagues. Wear Your Game. Own Your Style.</p><p className="mt-4 text-neutral-700">Our fan-inspired designs are not officially affiliated with, sponsored by or authorised by any team or league.</p></div>); }
