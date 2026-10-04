@@ -8,5 +8,3 @@ export function unitPrice(p: Pick<Product, 'price' | 'sale_price' | 'bulk_pricin
   return tier ? Math.min(tier.price, basePrice(p)) : basePrice(p);
 }
 export const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-export const PHONE = '+917676536059';
-export const WA = '917676536059';

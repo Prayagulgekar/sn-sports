@@ -59,3 +59,55 @@ export async function signOut() {
   await sb.auth.signOut();
   redirect('/admin/login');
 }
+export async function saveSettings(fd: FormData) {
+  const sb = await admin();
+
+  const settings = {
+    business_name: String(fd.get('business_name') || ''),
+    phone: String(fd.get('phone') || ''),
+    whatsapp: String(fd.get('whatsapp') || ''),
+    email: String(fd.get('email') || ''),
+    instagram: String(fd.get('instagram') || ''),
+    address: String(fd.get('address') || ''),
+    business_hours: String(fd.get('business_hours') || ''),
+  };
+
+  const { data: existing, error: checkError } = await sb
+    .from('settings')
+    .select('id')
+    .eq('id', 1)
+    .maybeSingle();
+
+  if (checkError) {
+    console.error('Settings check error:', checkError);
+    throw new Error(checkError.message);
+  }
+
+  let error;
+
+  if (existing) {
+    const result = await sb
+      .from('settings')
+      .update(settings)
+      .eq('id', 1);
+
+    error = result.error;
+  } else {
+    const result = await sb
+      .from('settings')
+      .insert({
+        id: 1,
+        ...settings,
+      });
+
+    error = result.error;
+  }
+
+  if (error) {
+    console.error('Save settings error:', error);
+    throw new Error(error.message);
+  }
+
+  refresh();
+  revalidatePath('/admin/settings');
+}

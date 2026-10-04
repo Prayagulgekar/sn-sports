@@ -26,7 +26,7 @@ create table requests (id uuid primary key default gen_random_uuid(), kind text 
 create index on requests(kind, status);
 create table offers (id uuid primary key default gen_random_uuid(), name text, product_id uuid references products on delete cascade, discount_type text check (discount_type in ('percent','flat')), discount_value numeric, start_date date, end_date date, active boolean default true);
 create table gallery (id uuid primary key default gen_random_uuid(), image_url text not null, title text, category text, active boolean default true, created_at timestamptz default now());
-create table settings (id int primary key default 1 check (id=1), business_name text default 'SN SPORTS', phone text default '+917676536059', whatsapp text default '917676536059', email text, instagram text, address text, business_hours text, logo text);
+create table settings (id int primary key default 1 check (id=1), business_name text default 'SN SPORTS', phone text, whatsapp text, email text, instagram text, address text, business_hours text, logo text);
 insert into settings(id) values (1);
 
 alter table profiles enable row level security; alter table categories enable row level security; alter table products enable row level security;

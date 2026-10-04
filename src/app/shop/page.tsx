@@ -15,14 +15,14 @@ export default async function Shop({ searchParams }: { searchParams: { q?: strin
   if (searchParams.q) { const t = searchParams.q.replace(/[^\w\s-]/g, ''); q = q.or(`name.ilike.%${t}%,sport.ilike.%${t}%,short_description.ilike.%${t}%,tags.cs.{${t.toLowerCase()}}`); }
   const { data, error } = await q.limit(60);
   const items = await applyOffers(sb, (data ?? []) as unknown as Product[]);
-  return (<div className="mx-auto max-w-7xl px-4 py-8"><h1 className="font-display text-5xl font-bold uppercase">Shop</h1>
-    <form className="mt-4 flex flex-wrap items-center gap-2"><input name="q" defaultValue={searchParams.q} placeholder="Search jerseys, sports, tags" className="input md:max-w-sm" />
+  return (<div className="mx-auto max-w-7xl px-4 py-8"><h1 className="font-display text-3xl font-bold uppercase sm:text-4xl md:text-5xl">Shop</h1>
+    <form className="mt-4 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2"><input name="q" defaultValue={searchParams.q} placeholder="Search jerseys, sports, tags" className="input sm:w-full md:max-w-sm" />
       <select name="category" defaultValue={searchParams.category ?? ''} className="input md:max-w-[200px]"><option value="">All categories</option>{cats?.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}</select>
       <input name="max" type="number" min="0" defaultValue={searchParams.max} placeholder="Max price ₹" className="input md:max-w-[160px]" />
-      <label className="flex items-center gap-2"><input type="checkbox" name="custom" value="1" defaultChecked={!!searchParams.custom} />Customizable</label>
-      <label className="flex items-center gap-2"><input type="checkbox" name="offers" value="1" defaultChecked={!!searchParams.offers} />Offers</label>
+      <label className="flex min-h-11 items-center gap-2"><input type="checkbox" name="custom" value="1" defaultChecked={!!searchParams.custom} />Customizable</label>
+      <label className="flex min-h-11 items-center gap-2"><input type="checkbox" name="offers" value="1" defaultChecked={!!searchParams.offers} />Offers</label>
       <button className="btn btn-dark">Filter</button></form>
     {error && <p className="mt-6 text-red-600">Could not load products. Please try again.</p>}
     {!error && !items.length && <p className="mt-10 text-neutral-600">No jerseys match. Try clearing filters, or <a className="text-volt underline" href="/custom-jersey">request a custom design</a>.</p>}
-    <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div></div>);
+    <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div></div>);
 }
